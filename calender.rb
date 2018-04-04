@@ -12,6 +12,8 @@ CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                              'calendar-ruby-quickstart.yaml').freeze
 SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
 
+CALENDAR_ID = 'mmiki@mikilab.doshisha.ac.jp'.freeze
+
 class Calendar
   # Initialize the API
   def initialize
@@ -19,7 +21,7 @@ class Calendar
     @service.client_options.application_name = APPLICATION_NAME
     @service.authorization = authorize
   end
-  
+
   ##
   # Ensure valid credentials, either by restoring from the saved credentials
   # files or intitiating an OAuth2 authorization. If authorization is required,
@@ -46,17 +48,29 @@ class Calendar
     end
     credentials
   end
-  
+
   def fetch_calender_event
     # Fetch the next 100 events for the user
-    calendar_id = 'mmiki@mikilab.doshisha.ac.jp'
-    response = @service.list_events(calendar_id,
+    response = @service.list_events(CALENDAR_ID,
                                     max_results: 100,
                                     single_events: true,
                                     order_by: 'startTime',
                                     time_min: Time.now.iso8601)
     return response.items unless response.items.empty?
     puts 'No upcoming events found'
+  end
+
+  def fetch_zenzemi
+    zenzemi_list = []
+    events = fetch_calender_event
+    events.each do |e|
+      if e.summary == '全体ゼミ'
+        start = e.start.date || e.start.date_time
+        zenzemi_list << start
+      end
+    end
+    return zenzemi_list unless zenzemi_list.empty?
+    puts 'No upcoming zenzemis found'
   end
 end
 
