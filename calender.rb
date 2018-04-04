@@ -49,7 +49,7 @@ class Calendar
     credentials
   end
 
-  def fetch_calender_event
+  def fetch_calender_events
     # Fetch the next 100 events for the user
     response = @service.list_events(CALENDAR_ID,
                                     max_results: 100,
@@ -60,9 +60,22 @@ class Calendar
     puts 'No upcoming events found'
   end
 
+  def fetch_event_with_title(event_title)
+    event_list = []
+    events = fetch_calender_events
+    events.each do |e|
+      if e.summary == event_title
+        start = e.start.date || e.start.date_time
+        event_list << start
+      end
+    end
+    return event_list unless event_list.empty?
+    puts 'No upcoming events that you want found'
+  end
+
   def fetch_zenzemi
     zenzemi_list = []
-    events = fetch_calender_event
+    events = fetch_calender_events
     events.each do |e|
       if e.summary == '全体ゼミ'
         start = e.start.date || e.start.date_time
@@ -81,7 +94,7 @@ end
 
 # get event title with start date or date time
 cal = Calendar.new
-events = cal.fetch_calender_event
+events = cal.fetch_calender_events
 events.each do |e|
   start = e.start.date || e.start.date_time
   puts "- #{e.summary} (#{start})"
