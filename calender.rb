@@ -3,8 +3,8 @@
 require 'google/apis/calendar_v3'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
-
 require 'fileutils'
+require 'dotenv/load'
 
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
 APPLICATION_NAME = 'Meeting Notification by Slack'.freeze
@@ -13,7 +13,7 @@ CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                              'calendar-ruby-quickstart.yaml').freeze
 SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
 
-CALENDAR_ID = 'mmiki@mikilab.doshisha.ac.jp'.freeze
+CALENDAR_ID = ENV['MAIL_ADDRESS']
 
 class Calendar
   # Initialize the API
