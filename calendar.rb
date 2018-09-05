@@ -94,9 +94,9 @@ end
 #####################################################
 
 # get event title with start date or date time
-cal = Calendar.new
-events = cal.fetch_calender_events
-events.each do |e|
-  start = e.start.date || e.start.date_time
-  puts "- #{e.summary} (#{start})"
-end
+# cal = Calendar.new
+# events = cal.fetch_calender_events
+# events.each do |e|
+#   start = e.start.date || e.start.date_time
+#   puts "- #{e.summary} (#{start})"
+# end
