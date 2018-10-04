@@ -3,7 +3,7 @@
 require 'active_support/time'
 require_relative 'calendar.rb'
 
-messages = [{type: 'text', text: '↓本日の予定↓'}]
+messages = [{type: 'text', text: '↓明日の予定↓'}]
 
 cal = Calendar.new
 events = cal.fetch_calender_events
