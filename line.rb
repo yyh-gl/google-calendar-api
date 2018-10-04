@@ -15,9 +15,9 @@ events.each do |e|
     start = Date.parse(e.start.date_time.strftime('%Y-%m-%d'))
     str_start = e.start.date_time.strftime('%Y-%m-%d %H:%M:%S 〜')
   end
-  from = Date.today
-  untill = Date.today + 1.day
-  
+  from = Date.today + 1.day
+  untill = Date.today + 2.day
+
   if from <= start && start < untill
     puts "- #{e.summary} (#{str_start})"
     messages << {type: 'text', text: "#{e.summary} (#{str_start})"}
