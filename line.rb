@@ -3,8 +3,9 @@
 require 'active_support/time'
 require_relative 'calendar.rb'
 
-messages = [{type: 'text', text: '↓明日の予定↓'}]
+messages = [{ type: 'text', text: '↓明日の予定↓' }]
 
+schedule = ''
 cal = Calendar.new
 events = cal.fetch_calender_events
 events.each do |e|
@@ -20,11 +21,12 @@ events.each do |e|
 
   if from <= start && start < untill
     puts "- #{e.summary} (#{str_start})"
-    messages << {type: 'text', text: "#{e.summary} (#{str_start})"}
+    schedule += "#{e.summary} (#{str_start})\n"
   end
 end
+messages << { type: 'text', text: schedule.chomp }
 
-messages << {type: 'text', text: '↑以上↑'}
+messages << { type: 'text', text: '↑以上↑' }
 
 cmd = <<"EOS"
 curl -X POST \
